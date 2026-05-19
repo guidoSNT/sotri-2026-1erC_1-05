@@ -72,8 +72,7 @@ uint32_t g_app_stack_overflow_cnt;
  * with other thread or to ensure mutual exclusive access to...*/
 
 /* Declare a variable of type TaskHandle_t. This is used to reference threads. */
-TaskHandle_t h_task_btn1;
-TaskHandle_t h_task_btn2;
+TaskHandle_t h_task_btn;
 TaskHandle_t h_task_led;
 
 

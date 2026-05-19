@@ -82,7 +82,7 @@ task_btn_dta_t task_btn1_dta = {
 		B1_GPIO_Port, B1_Pin
 };
 
-task_btn_dta_t task_btn2_dta = {
+task_btn_dta_t task_btn1_dta = {
 		EV_BTN_XX_UP, ST_BTN_XX_UP, DEL_BTN_XX_MIN,
 		B2_GPIO_Port, B2_Pin
 };

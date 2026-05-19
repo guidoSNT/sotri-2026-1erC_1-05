@@ -35,6 +35,13 @@
 #ifndef TASK_BTN_H_
 #define TASK_BTN_H_
 
+#define DEL_BTN_XX_MIN		0ul
+#define DEL_BTN_XX_MED		25ul
+#define DEL_BTN_XX_MAX		50ul
+
+#define EV_SYS_IDLE			0ul
+#define EV_SYS_LOOP_DET		1ul
+
 /********************** CPP guard ********************************************/
 #ifdef __cplusplus
 extern "C" {
@@ -49,8 +56,7 @@ extern "C" {
 /********************** external data declaration ****************************/
 
 /********************** external functions declaration ***********************/
-extern void task_btn1(void *parameters);
-extern void task_btn2(void *parameters);
+extern void task_btn(void *parameters);
 
 /********************** End of CPP guard *************************************/
 #ifdef __cplusplus

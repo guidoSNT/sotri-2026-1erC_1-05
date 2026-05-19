@@ -624,3 +624,33 @@ java.lang.Exception: Resource '/sotri-tp1_03-application' does not exist.
 
 !ENTRY org.eclipse.cdt.core 1 0 2026-05-15 19:32:38.604
 !MESSAGE Indexed 'sotri-tp1_03-application' (42 sources, 179 headers) in 5.12 sec: 18,538 declarations; 82,522 references; 7 unresolved inclusions; 240 syntax errors; 1,411 unresolved names (1.4%)
+!SESSION 2026-05-16 13:20:46.540 -----------------------------------------------
+eclipse.buildId=Version 1.19.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_AR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2026-05-16 13:21:15.207
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-05-16 13:21:15.211
+!MESSAGE Log4j2 initialized with config file C:\Users\Mauro\Desktop\CESE\Bimestre 2\RTOS I\sotri-tp1_2026-1erC_1-05\TP1\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-05-16 13:21:26.629
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2026-05-18 22:13:19.462 -----------------------------------------------
+eclipse.buildId=Version 1.19.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_AR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2026-05-18 22:14:05.887
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-05-18 22:14:05.898
+!MESSAGE Log4j2 initialized with config file C:\Users\Mauro\Desktop\CESE\Bimestre 2\RTOS I\sotri-tp1_2026-1erC_1-05\TP1\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-05-18 22:14:26.111
+!MESSAGE Started RMI Server, listening on port 41337

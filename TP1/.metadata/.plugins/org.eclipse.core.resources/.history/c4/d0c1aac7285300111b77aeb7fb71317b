@@ -32,8 +32,15 @@
  * @author : Juan Manuel Cruz <jcruz@fi.uba.ar> <jcruz@frba.utn.edu.ar>
  */
 
-#ifndef APP_H_
-#define APP_H_
+#ifndef TASK_BTN_H_
+#define TASK_BTN_H_
+
+#define DEL_BTN_XX_MIN		0ul
+#define DEL_BTN_XX_MED		25ul
+#define DEL_BTN_XX_MAX		50ul
+
+#define EV_SYS_IDLE			0ul
+#define EV_SYS_LOOP_DET		1ul
 
 /********************** CPP guard ********************************************/
 #ifdef __cplusplus
@@ -47,28 +54,16 @@ extern "C" {
 /********************** typedef **********************************************/
 
 /********************** external data declaration ****************************/
-extern volatile uint32_t g_app_tick_cnt;
-extern uint32_t g_task_idle_cnt;
-extern uint32_t g_app_stack_overflow_cnt;
-
-/* Declare a variable of type QueueHandle_t. This is used to reference queues*/
-
-/* Declare a variable of type xSemaphoreHandle (binary or counting) or mutex. 
- * This is used to reference the semaphore that is used to synchronize a thread
- * with other thread or to ensure mutual exclusive access to...*/
-
-/* Declare a variable of type TaskHandle_t. This is used to reference threads. */
-extern TaskHandle_t h_task_btn;
-extern TaskHandle_t h_task_led;
 
 /********************** external functions declaration ***********************/
-extern void app_init(void);
+extern void task_btn1(void *parameters);
+extern void task_btn2(void *parameters);
 
 /********************** End of CPP guard *************************************/
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* APP_H_ */
+#endif /* TASK_BTN_H_ */
 
 /********************** end of file ******************************************/

@@ -43,14 +43,18 @@
 
 /* Application & Tasks includes */
 #include "board.h"
-#include "task_btn.h"
 #include "app.h"
 #include "task_btn_attribute.h"
 #include "task_led_attribute.h"
 #include "task_led_interface.h"
 
 /********************** macros and definitions *******************************/
+#define DEL_BTN_XX_MIN		0ul
+#define DEL_BTN_XX_MED		25ul
+#define DEL_BTN_XX_MAX		50ul
 
+#define EV_SYS_IDLE			0ul
+#define EV_SYS_LOOP_DET		1ul
 
 /********************** internal data declaration ****************************/
 /*task_btn_dta_t task_btn_dta = {
@@ -69,7 +73,10 @@ void task_btn_statechart(task_btn_dta_t*);
 /* Task BTN thread */
 void task_btn(void *parameters)
 {
-	task_btn_dta_t* aux = (task_btn_dta_t*) parameters;
+	PeripheralConfig_t* aux = (PeripheralConfig_t*)parameters;
+	task_btn_dta_t btn1;
+	btn1.gpio_port = aux->port; //port del parametro
+	btn1.pin = aux->pin;//pin del parametro
 	/* Print out: Task Initialized */
 	LOGGER_INFO(" ");
 	LOGGER_INFO("%s is running - Tick [mS] = %3d", pcTaskGetName(NULL), (int)xTaskGetTickCount());
@@ -83,7 +90,7 @@ void task_btn(void *parameters)
 		/* Print out: Task execution */
 		//LOGGER_INFO(" %s - Tick [mS] = %3d", pcTaskGetName(NULL), (int)xTaskGetTickCount());
 		/* Run Task Statechart */
-    	task_btn_statechart(aux);
+    	task_btn_statechart(&btn1);
 	}
 }
 

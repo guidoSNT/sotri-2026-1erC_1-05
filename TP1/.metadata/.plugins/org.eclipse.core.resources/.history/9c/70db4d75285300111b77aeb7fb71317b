@@ -43,14 +43,18 @@
 
 /* Application & Tasks includes */
 #include "board.h"
-#include "task_btn.h"
 #include "app.h"
 #include "task_btn_attribute.h"
 #include "task_led_attribute.h"
 #include "task_led_interface.h"
 
 /********************** macros and definitions *******************************/
+#define DEL_BTN_XX_MIN		0ul
+#define DEL_BTN_XX_MED		25ul
+#define DEL_BTN_XX_MAX		50ul
 
+#define EV_SYS_IDLE			0ul
+#define EV_SYS_LOOP_DET		1ul
 
 /********************** internal data declaration ****************************/
 /*task_btn_dta_t task_btn_dta = {

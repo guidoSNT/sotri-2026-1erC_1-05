@@ -46,7 +46,6 @@
 #include "app_it.h"
 #include "task_btn.h"
 #include "task_led.h"
-#include "task_btn_attribute.h"
 
 
 /********************** macros and definitions *******************************/
@@ -76,14 +75,16 @@ TaskHandle_t h_task_btn1;
 TaskHandle_t h_task_btn2;
 TaskHandle_t h_task_led;
 
+typedef struct {
+    GPIO_TypeDef* port;  //
+    uint16_t pin;        //
+} PeripheralConfig_t;
 
-task_btn_dta_t task_btn1_dta = {
-		EV_BTN_XX_UP, ST_BTN_XX_UP, DEL_BTN_XX_MIN,
+PeripheralConfig_t btn1 = {
 		B1_GPIO_Port, B1_Pin
 };
 
-task_btn_dta_t task_btn2_dta = {
-		EV_BTN_XX_UP, ST_BTN_XX_UP, DEL_BTN_XX_MIN,
+PeripheralConfig_t btn2 = {
 		B2_GPIO_Port, B2_Pin
 };
 
@@ -113,20 +114,20 @@ void app_init(void)
     BaseType_t ret;
 
     /* Task BTN thread at priority 1 */
-    ret = xTaskCreate(task_btn,							/* Pointer to the function thats implement the task. */
+    ret = xTaskCreate(task_btn1,							/* Pointer to the function thats implement the task. */
 					  "Task BTN1",						/* Text name for the task. This is to facilitate debugging only. */
 					  (2 * configMINIMAL_STACK_SIZE),	/* Stack depth in words. */
-					  (void*)&task_btn1_dta,								/* We are not using the task parameter. */
+					  (void*)&btn1,								/* We are not using the task parameter. */
 					  (tskIDLE_PRIORITY + 1ul),			/* This task will run at priority 1. */
 					  &h_task_btn1);						/* We are using a variable as task handle. */
 
     /* Check the thread was created successfully. */
     configASSERT(pdPASS == ret);
 
-    ret = xTaskCreate(task_btn,							/* Pointer to the function thats implement the task. */
+    ret = xTaskCreate(task_btn2,							/* Pointer to the function thats implement the task. */
 					  "Task BTN2",						/* Text name for the task. This is to facilitate debugging only. */
 					  (2 * configMINIMAL_STACK_SIZE),	/* Stack depth in words. */
-					  (void*)&task_btn2_dta,								/* We are not using the task parameter. */
+					  (void*)&btn2,								/* We are not using the task parameter. */
 					  (tskIDLE_PRIORITY + 1ul),			/* This task will run at priority 1. */
 					  &h_task_btn2);						/* We are using a variable as task handle. */
 
