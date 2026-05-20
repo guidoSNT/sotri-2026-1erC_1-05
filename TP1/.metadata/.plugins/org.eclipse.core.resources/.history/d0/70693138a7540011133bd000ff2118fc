@@ -47,7 +47,6 @@
 #include "task_btn_attribute.h"
 #include "task_led_attribute.h"
 #include "task_led_interface.h"
-#include "task.h"
 
 /********************** macros and definitions *******************************/
 #define DEL_BTN_XX_MIN		0ul
@@ -78,7 +77,6 @@ void task_btn(void *parameters)
 	LOGGER_INFO(" ");
 	LOGGER_INFO("%s is running - Tick [mS] = %3d", pcTaskGetName(NULL), (int)xTaskGetTickCount());
 
-	TickType_t lastTime = xTaskGetTickCount();
 	/* As per most tasks, this task is implemented in an infinite loop. */
 	for (;;)
 	{
@@ -87,7 +85,6 @@ void task_btn(void *parameters)
 
 		/* Run Task Statechart */
     	task_btn_statechart();
-    	vTaskDelayUntil(&lastTime, pdMS_TO_TICKS(100));
 	}
 }
 

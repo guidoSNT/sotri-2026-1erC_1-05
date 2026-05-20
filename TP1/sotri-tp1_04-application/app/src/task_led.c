@@ -45,6 +45,7 @@
 #include "board.h"
 #include "app.h"
 #include "task_led_attribute.h"
+#include "task.h"
 
 /********************** macros and definitions *******************************/
 #define DEL_LED_XX_MIN		0ul
@@ -74,6 +75,9 @@ void task_led(void *parameters)
 
 	HAL_GPIO_WritePin(task_led_dta.gpio_port, task_led_dta.pin, LED_OFF);
 
+	TickType_t lastTime = xTaskGetTickCount();
+
+
 	/* As per most tasks, this task is implemented in an infinite loop. */
 	for (;;)
 	{
@@ -81,7 +85,10 @@ void task_led(void *parameters)
 		//LOGGER_INFO(" %s - Tick [mS] = %3d", pcTaskGetName(NULL), (int)xTaskGetTickCount());
 
 		/* Run Task Statechart */
+
     	task_led_statechart();
+    	vTaskDelayUntil(&lastTime, pdMS_TO_TICKS(100));
+
 	}
 }
 

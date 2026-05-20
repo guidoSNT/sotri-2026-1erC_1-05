@@ -1,22 +1,35 @@
-20:18:08 **** Incremental Build of configuration Debug for project sotri-tp1_03-application ****
+20:48:12 **** Incremental Build of configuration Debug for project sotri-tp1_04-application ****
 make -j6 all 
-arm-none-eabi-gcc "../app/src/app.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../app/inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"app/src/app.d" -MT"app/src/app.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "app/src/app.o"
 arm-none-eabi-gcc "../app/src/task_led.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../app/inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"app/src/task_led.d" -MT"app/src/task_led.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "app/src/task_led.o"
-arm-none-eabi-gcc -o "sotri-tp1_03-application.elf" @"objects.list"  -lrdimon -mcpu=cortex-m4 -T"C:\Users\Mauro\Desktop\CESE\Bimestre 2\RTOS I\sotri-tp1_2026-1erC_1-05\TP1\sotri-tp1_03-application\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="sotri-tp1_03-application.map" -Wl,--gc-sections -static -specs=rdimon.specs --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: sotri-tp1_03-application.elf
+arm-none-eabi-gcc -o "sotri-tp1_04-application.elf" @"objects.list"  -lrdimon -mcpu=cortex-m4 -T"C:\Users\Mauro\Desktop\CESE\Bimestre 2\RTOS I\sotri-tp1_2026-1erC_1-05\TP1\sotri-tp1_04-application\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="sotri-tp1_04-application.map" -Wl,--gc-sections -static -specs=rdimon.specs --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: sotri-tp1_04-application.elf
  
-arm-none-eabi-size  sotri-tp1_03-application.elf 
-arm-none-eabi-objdump -h -S sotri-tp1_03-application.elf  > "sotri-tp1_03-application.list"
+arm-none-eabi-size  sotri-tp1_04-application.elf 
+arm-none-eabi-objdump -h -S sotri-tp1_04-application.elf  > "sotri-tp1_04-application.list"
    text	   data	    bss	    dec	    hex	filename
-  25488	    180	  18716	  44384	   ad60	sotri-tp1_03-application.elf
+  25456	    148	  18708	  44312	   ad18	sotri-tp1_04-application.elf
 Finished building: default.size.stdout
  
-Finished building: sotri-tp1_03-application.list
+Finished building: sotri-tp1_04-application.list
  
-20:18:19 **** Incremental Build of configuration Debug for project sotri-tp1_03-application ****
+20:48:15 **** Incremental Build of configuration Debug for project sotri-tp1_04-application ****
 make -j6 all 
-arm-none-eabi-size  sotri-tp1_03-application.elf 
+arm-none-eabi-size  sotri-tp1_04-application.elf 
    text	   data	    bss	    dec	    hex	filename
-  25488	    180	  18716	  44384	   ad60	sotri-tp1_03-application.elf
+  25456	    148	  18708	  44312	   ad18	sotri-tp1_04-application.elf
 Finished building: default.size.stdout
+ 
+20:54:24 **** Incremental Build of configuration Debug for project sotri-tp1_04-application ****
+make -j6 all 
+arm-none-eabi-gcc "../app/src/task_btn.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../app/inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"app/src/task_btn.d" -MT"app/src/task_btn.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "app/src/task_btn.o"
+arm-none-eabi-gcc -o "sotri-tp1_04-application.elf" @"objects.list"  -lrdimon -mcpu=cortex-m4 -T"C:\Users\Mauro\Desktop\CESE\Bimestre 2\RTOS I\sotri-tp1_2026-1erC_1-05\TP1\sotri-tp1_04-application\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="sotri-tp1_04-application.map" -Wl,--gc-sections -static -specs=rdimon.specs --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: sotri-tp1_04-application.elf
+ 
+arm-none-eabi-size  sotri-tp1_04-application.elf 
+arm-none-eabi-objdump -h -S sotri-tp1_04-application.elf  > "sotri-tp1_04-application.list"
+   text	   data	    bss	    dec	    hex	filename
+  25480	    148	  18708	  44336	   ad30	sotri-tp1_04-application.elf
+Finished building: default.size.stdout
+ 
+Finished building: sotri-tp1_04-application.list
  
