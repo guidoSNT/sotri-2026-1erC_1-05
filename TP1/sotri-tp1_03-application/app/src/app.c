@@ -47,6 +47,7 @@
 #include "task_btn.h"
 #include "task_led.h"
 #include "task_btn_attribute.h"
+#include "task_led_attribute.h"
 
 
 /********************** macros and definitions *******************************/
@@ -74,7 +75,9 @@ uint32_t g_app_stack_overflow_cnt;
 /* Declare a variable of type TaskHandle_t. This is used to reference threads. */
 TaskHandle_t h_task_btn1;
 TaskHandle_t h_task_btn2;
-TaskHandle_t h_task_led;
+TaskHandle_t h_task_led1;
+TaskHandle_t h_task_led2;
+
 
 
 task_btn_dta_t task_btn1_dta = {
@@ -85,6 +88,16 @@ task_btn_dta_t task_btn1_dta = {
 task_btn_dta_t task_btn2_dta = {
 		EV_BTN_XX_UP, ST_BTN_XX_UP, DEL_BTN_XX_MIN,
 		B2_GPIO_Port, B2_Pin
+};
+
+task_led_dta_t task_led1_dta = {
+		false, EV_LED_XX_OFF, ST_LED_XX_OFF, DEL_LED_XX_MIN,
+		LD2_GPIO_Port, LD2_Pin
+};
+
+task_led_dta_t task_led2_dta = {
+		false, EV_LED_XX_OFF, ST_LED_XX_OFF, DEL_LED_XX_MIN,
+		LD2_GPIO_Port, LD2_Pin
 };
 
 /********************** external functions definition ************************/
@@ -135,11 +148,21 @@ void app_init(void)
 
     /* Task LED thread at priority 1 */
     ret = xTaskCreate(task_led,							/* Pointer to the function thats implement the task. */
-					  "Task LED",						/* Text name for the task. This is to facilitate debugging only. */
+					  "Task LED1",						/* Text name for the task. This is to facilitate debugging only. */
 					  (2 * configMINIMAL_STACK_SIZE),	/* Stack depth in words. */
-					  NULL,								/* We are not using the task parameter. */
+					  (void*)&task_led1_dta,								/* We are not using the task parameter. */
 					  (tskIDLE_PRIORITY + 1ul),			/* This task will run at priority 1. */
-					  &h_task_led);						/* We are using a variable as task handle. */
+					  &h_task_led1);						/* We are using a variable as task handle. */
+
+    /* Check the thread was created successfully. */
+    configASSERT(pdPASS == ret);
+
+    ret = xTaskCreate(task_led,							/* Pointer to the function thats implement the task. */
+					  "Task LED2",						/* Text name for the task. This is to facilitate debugging only. */
+					  (2 * configMINIMAL_STACK_SIZE),	/* Stack depth in words. */
+					  (void*)&task_led2_dta,								/* We are not using the task parameter. */
+					  (tskIDLE_PRIORITY + 1ul),			/* This task will run at priority 1. */
+					  &h_task_led2);						/* We are using a variable as task handle. */
 
     /* Check the thread was created successfully. */
     configASSERT(pdPASS == ret);
