@@ -75,6 +75,10 @@ void task_led(void *parameters)
 
 	HAL_GPIO_WritePin(aux->gpio_port, aux->pin, LED_OFF);
 
+	vTaskPrioritySet(NULL, tskIDLE_PRIORITY + 1ul);
+
+
+
 	/* As per most tasks, this task is implemented in an infinite loop. */
 	for (;;)
 	{
