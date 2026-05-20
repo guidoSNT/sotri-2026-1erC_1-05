@@ -59,7 +59,7 @@
 };*/
 
 /********************** internal functions declaration ***********************/
-void task_btn_statechart(task_btn_dta_t*);
+void task_btn_statechart(task_btn_dta_t*,task_led_dta_t*);
 
 /********************** internal data definition *****************************/
 
@@ -69,7 +69,8 @@ void task_btn_statechart(task_btn_dta_t*);
 /* Task BTN thread */
 void task_btn(void *parameters)
 {
-	task_btn_dta_t* aux = (task_btn_dta_t*) parameters;
+	global_dta_t* para = (global_dta_t*)parameters;
+	task_btn_dta_t* aux = &(para->task_btn_dta);
 	/* Print out: Task Initialized */
 	LOGGER_INFO(" ");
 	LOGGER_INFO("%s is running - Tick [mS] = %3d", pcTaskGetName(NULL), (int)xTaskGetTickCount());
@@ -83,12 +84,12 @@ void task_btn(void *parameters)
 		/* Print out: Task execution */
 		//LOGGER_INFO(" %s - Tick [mS] = %3d", pcTaskGetName(NULL), (int)xTaskGetTickCount());
 		/* Run Task Statechart */
-    	task_btn_statechart(aux);
+    	task_btn_statechart(aux,&(para->task_led_dta));
 	}
 }
 
 
-void task_btn_statechart(task_btn_dta_t* dta)
+void task_btn_statechart(task_btn_dta_t* dta,task_led_dta_t* led )
 {
 	/* Get Events to excite Task */
 	if (BTN_PRESSED == HAL_GPIO_ReadPin(dta->gpio_port, dta->pin))
@@ -122,7 +123,7 @@ void task_btn_statechart(task_btn_dta_t* dta)
 					/* Print out: Task execution */
 					LOGGER_INFO(" %s - BTN PRESSED", pcTaskGetName(NULL));
 
-					put_event_task_led(EV_LED_XX_BLINK);
+					put_event_task_led(led, EV_LED_XX_BLINK);
 					dta->state = ST_BTN_XX_DOWN;
 				}
 				else
@@ -152,7 +153,7 @@ void task_btn_statechart(task_btn_dta_t* dta)
 					/* Print out: Task execution */
 					LOGGER_INFO(" %s - BTN HOVER", pcTaskGetName(NULL));
 
-					put_event_task_led(EV_LED_XX_OFF);
+					put_event_task_led(led, EV_LED_XX_OFF);
 					dta->state = ST_BTN_XX_UP;
 				}
 				else

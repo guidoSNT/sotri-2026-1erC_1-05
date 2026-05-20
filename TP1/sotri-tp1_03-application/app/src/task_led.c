@@ -70,7 +70,8 @@ void task_led(void *parameters)
 	LOGGER_INFO(" ");
 	LOGGER_INFO("%s is running - Tick [mS] = %3d", pcTaskGetName(NULL), (int)xTaskGetTickCount());
 
-	task_led_dta_t* aux = (task_led_dta_t*) parameters;
+	global_dta_t* para = (global_dta_t*)parameters;
+	task_led_dta_t* aux = &(para->task_led_dta);
 
 	HAL_GPIO_WritePin(aux->gpio_port, aux->pin, LED_OFF);
 

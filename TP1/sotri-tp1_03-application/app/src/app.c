@@ -44,10 +44,8 @@
 /* Application & Tasks includes */
 #include "board.h"
 #include "app_it.h"
-#include "task_btn.h"
-#include "task_led.h"
-#include "task_btn_attribute.h"
-#include "task_led_attribute.h"
+#include "app.h"
+
 
 
 /********************** macros and definitions *******************************/
@@ -60,11 +58,11 @@
 /********************** internal functions declaration ***********************/
 
 /********************** internal data definition *****************************/
-
-/********************** external data declaration ****************************/
 uint32_t g_app_tick_cnt;
 uint32_t g_task_idle_cnt;
 uint32_t g_app_stack_overflow_cnt;
+/********************** external data declaration ****************************/
+
 
 /* Declare a variable of type QueueHandle_t. This is used to reference queues*/
 
@@ -78,27 +76,29 @@ TaskHandle_t h_task_btn2;
 TaskHandle_t h_task_led1;
 TaskHandle_t h_task_led2;
 
-
-
-task_btn_dta_t task_btn1_dta = {
-		EV_BTN_XX_UP, ST_BTN_XX_UP, DEL_BTN_XX_MIN,
-		B1_GPIO_Port, B1_Pin
+global_dta_t global1_dta = {
+		.task_btn_dta = {
+				EV_BTN_XX_UP, ST_BTN_XX_UP, DEL_BTN_XX_MIN,
+				B1_GPIO_Port, B1_Pin
+		},
+		.task_led_dta = {
+				false, EV_LED_XX_OFF, ST_LED_XX_OFF, DEL_LED_XX_MIN,
+				LD2_GPIO_Port, LD2_Pin
+		}
 };
 
-task_btn_dta_t task_btn2_dta = {
-		EV_BTN_XX_UP, ST_BTN_XX_UP, DEL_BTN_XX_MIN,
-		B2_GPIO_Port, B2_Pin
+global_dta_t global2_dta = {
+		.task_btn_dta = {
+				EV_BTN_XX_UP, ST_BTN_XX_UP, DEL_BTN_XX_MIN,
+				B2_GPIO_Port, B2_Pin
+		},
+		.task_led_dta = {
+				false, EV_LED_XX_OFF, ST_LED_XX_OFF, DEL_LED_XX_MIN,
+				LD3_GPIO_Port, LD3_Pin
+		}
 };
 
-task_led_dta_t task_led1_dta = {
-		false, EV_LED_XX_OFF, ST_LED_XX_OFF, DEL_LED_XX_MIN,
-		LD2_GPIO_Port, LD2_Pin
-};
 
-task_led_dta_t task_led2_dta = {
-		false, EV_LED_XX_OFF, ST_LED_XX_OFF, DEL_LED_XX_MIN,
-		LD2_GPIO_Port, LD2_Pin
-};
 
 /********************** external functions definition ************************/
 void app_init(void)
@@ -129,7 +129,7 @@ void app_init(void)
     ret = xTaskCreate(task_btn,							/* Pointer to the function thats implement the task. */
 					  "Task BTN1",						/* Text name for the task. This is to facilitate debugging only. */
 					  (2 * configMINIMAL_STACK_SIZE),	/* Stack depth in words. */
-					  (void*)&task_btn1_dta,								/* We are not using the task parameter. */
+					  (void*)&global1_dta,								/* We are not using the task parameter. */
 					  (tskIDLE_PRIORITY + 1ul),			/* This task will run at priority 1. */
 					  &h_task_btn1);						/* We are using a variable as task handle. */
 
@@ -139,7 +139,7 @@ void app_init(void)
     ret = xTaskCreate(task_btn,							/* Pointer to the function thats implement the task. */
 					  "Task BTN2",						/* Text name for the task. This is to facilitate debugging only. */
 					  (2 * configMINIMAL_STACK_SIZE),	/* Stack depth in words. */
-					  (void*)&task_btn2_dta,								/* We are not using the task parameter. */
+					  (void*)&global2_dta,								/* We are not using the task parameter. */
 					  (tskIDLE_PRIORITY + 1ul),			/* This task will run at priority 1. */
 					  &h_task_btn2);						/* We are using a variable as task handle. */
 
@@ -150,7 +150,7 @@ void app_init(void)
     ret = xTaskCreate(task_led,							/* Pointer to the function thats implement the task. */
 					  "Task LED1",						/* Text name for the task. This is to facilitate debugging only. */
 					  (2 * configMINIMAL_STACK_SIZE),	/* Stack depth in words. */
-					  (void*)&task_led1_dta,								/* We are not using the task parameter. */
+					  (void*)&global1_dta,								/* We are not using the task parameter. */
 					  (tskIDLE_PRIORITY + 1ul),			/* This task will run at priority 1. */
 					  &h_task_led1);						/* We are using a variable as task handle. */
 
@@ -160,7 +160,7 @@ void app_init(void)
     ret = xTaskCreate(task_led,							/* Pointer to the function thats implement the task. */
 					  "Task LED2",						/* Text name for the task. This is to facilitate debugging only. */
 					  (2 * configMINIMAL_STACK_SIZE),	/* Stack depth in words. */
-					  (void*)&task_led2_dta,								/* We are not using the task parameter. */
+					  (void*)&global2_dta,								/* We are not using the task parameter. */
 					  (tskIDLE_PRIORITY + 1ul),			/* This task will run at priority 1. */
 					  &h_task_led2);						/* We are using a variable as task handle. */
 

@@ -54,7 +54,9 @@
 /********************** internal data definition *****************************/
 
 /********************** external data declaration *****************************/
-
+extern uint32_t g_app_tick_cnt;
+extern uint32_t g_task_idle_cnt;
+extern uint32_t g_app_stack_overflow_cnt;
 /********************** external functions definition ************************/
 /* Hook Functions */
 void vApplicationIdleHook(void)

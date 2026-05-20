@@ -45,7 +45,9 @@ app/src/task_btn.o: ../app/src/task_btn.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
  ../app/inc/logger.h ../app/inc/dwt.h ../app/inc/board.h \
- ../app/inc/task_btn.h ../app/inc/app.h ../app/inc/task_btn_attribute.h \
+ ../app/inc/task_btn.h ../app/inc/app.h ../app/inc/task_btn.h \
+ ../app/inc/task_led.h ../app/inc/task_btn_attribute.h \
+ ../app/inc/task_led_attribute.h ../app/inc/task_btn_attribute.h \
  ../app/inc/task_led_attribute.h ../app/inc/task_led_interface.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -98,6 +100,10 @@ app/src/task_btn.o: ../app/src/task_btn.c ../Core/Inc/main.h \
 ../app/inc/board.h:
 ../app/inc/task_btn.h:
 ../app/inc/app.h:
+../app/inc/task_btn.h:
+../app/inc/task_led.h:
+../app/inc/task_btn_attribute.h:
+../app/inc/task_led_attribute.h:
 ../app/inc/task_btn_attribute.h:
 ../app/inc/task_led_attribute.h:
 ../app/inc/task_led_interface.h:

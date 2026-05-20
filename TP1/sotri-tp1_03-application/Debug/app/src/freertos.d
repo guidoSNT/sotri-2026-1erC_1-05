@@ -44,7 +44,9 @@ app/src/freertos.o: ../app/src/freertos.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
- ../app/inc/logger.h ../app/inc/dwt.h ../app/inc/board.h ../app/inc/app.h
+ ../app/inc/logger.h ../app/inc/dwt.h ../app/inc/board.h ../app/inc/app.h \
+ ../app/inc/task_btn.h ../app/inc/task_led.h \
+ ../app/inc/task_btn_attribute.h ../app/inc/task_led_attribute.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -95,3 +97,7 @@ app/src/freertos.o: ../app/src/freertos.c ../Core/Inc/main.h \
 ../app/inc/dwt.h:
 ../app/inc/board.h:
 ../app/inc/app.h:
+../app/inc/task_btn.h:
+../app/inc/task_led.h:
+../app/inc/task_btn_attribute.h:
+../app/inc/task_led_attribute.h:
