@@ -130,8 +130,8 @@ Sin embargo, a veces ocurria lo siguiente:
 Esto es producto de que ambas tareas utilizan una maquina de estados que usa una variable global privada `task_btn_dta` por lo que ambas la modifican y se "pisan" en la ejecución.
 
 Por otro lado, usando algunos breakpoints pudimos comprobar que la tercer tarea del boton se llego a crear:
-![Prev to delete](TP1/sotri-tp1_02-application/images/prev.png)
+![Prev to delete](images/prev.png)
 
 Posterior al delete:
-![Post delete](TP1/sotri-tp1_02-application/images/post.png)
+![Post delete](images/post.png)
 
