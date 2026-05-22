@@ -10,8 +10,8 @@ Lo hace en base al nivel de prioridad de cada tarea.
 
 ## ¿Cómo la prioridad relativa de cada Tarea afecta el comportamiento del sistema?
 
-Afecta haciendo que aquella de mayor prioridad se ejecute idefinidamente si no suelta el recurso (starvation).
-En cambio en caso de tener igual prioridad iran cambiando entre las dos dependiendo a la interrupcion del PendSV.
+Afecta haciendo que aquella de mayor prioridad se ejecute idefinidamente si no se pone en estado suspend o blocked.
+En cambio en caso de tener igual prioridad iran cambiando entre las dos equitativamente de forma Round Robin.
 
 ## ¿Cuáles son los estados en los que puede encontrarse una Tarea?
 
