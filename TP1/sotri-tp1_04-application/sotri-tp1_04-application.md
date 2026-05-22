@@ -34,10 +34,14 @@ void task_led(void *parameters)
 }
 ```
 
-de modo que observamos que la utilizacion paso de:
+de modo que poniendo el delay solo en el led:
 
-![Prev to delete](images/prev.jpeg)
+![Prev to delete](images/led.jpeg)
 
-A que ahora en ambas tareas es:
+Se observa, que el mayor consumo lo lleva la tarea de boton porque la del led esta bloqueada por el delay y a su vez es de mayor prioridad que la tarea IDLE.
+
+Con el delay en las dos tareas:
 
 ![Prev to delete](images/full.jpeg)
+
+Como ahora ambas tareas poseen delay, se bloquean de modo que la mayor parte del tiempo queda en la tarea IDLE.
