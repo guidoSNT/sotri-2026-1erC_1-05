@@ -125,3 +125,8 @@ Finalmente, como se puede ver en las prioridades de las tareas de led, ambas com
 vTaskPrioritySet(NULL, tskIDLE_PRIORITY + 1ul);
 ```
 Esto se llama una vez en el comienzo de la tareas de led para bajarles la prioridad.
+
+# Ejemplo andando con los dos botones
+
+A modo de muestra, armamos un video con los dos botones andando:
+
