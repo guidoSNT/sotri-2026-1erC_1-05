@@ -40,4 +40,4 @@ de modo que observamos que la utilizacion paso de:
 
 A que ahora en ambas tareas es:
 
-![Prev to delete](images/full.png)
+![Prev to delete](images/full.jpeg)
