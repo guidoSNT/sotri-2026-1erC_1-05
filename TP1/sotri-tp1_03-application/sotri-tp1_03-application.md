@@ -38,7 +38,6 @@ Que podemos llamar dentro de una misma tarea para que se cambia a si misma la pr
 
 Como ambos ejercicios son similares, decidimos mostrarlos juntos. En `app.c` se crearon las dos instancias de los botones y de los leds tal que:
 
-
 ```c
 /* Task BTN thread at priority 1 */
 ret = xTaskCreate(task_btn,							/* Pointer to the function thats implement the task. */
@@ -82,6 +81,7 @@ ret = xTaskCreate(task_led,							/* Pointer to the function thats implement the
 /* Check the thread was created successfully. */
 configASSERT(pdPASS == ret);
 ```
+Cabe aclarar que ahora cada boton controla un led distinto, de modo que cada tarea de boton esta asociada a una tarea de led.
 
 Donde a cada tarea se le pasa como parametro la siguiente estructura:
 
@@ -110,3 +110,18 @@ void task_btn(void *parameters)
 ```
 
 Esto mismo se hizo para la tarea de led de modo que ambas tareas reciban los datos del boton y led correspondiente. Ademas, se tuvo que cambiar en `task_led_interface.c` la funcion `put_event_task_led` para que reciba el handler del led en vez de usar una variable global.
+
+```c
+void put_event_task_led(task_led_ev_t event)
+{
+	task_led_dta.event = event;
+	task_led_dta.flag = true;
+}
+```
+
+Finalmente, como se puede ver en las prioridades de las tareas de led, ambas comienzan con `taskIDLE_PRIORITY + 2ul` que es mayor a las tareas de boton y despues dentro de la tarea de led se cambia tal que:
+
+```c
+vTaskPrioritySet(NULL, tskIDLE_PRIORITY + 1ul);
+```
+Esto se llama una vez en el comienzo de la tareas de led para bajarles la prioridad.
