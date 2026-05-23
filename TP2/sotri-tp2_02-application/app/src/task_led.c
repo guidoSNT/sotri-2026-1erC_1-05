@@ -76,6 +76,7 @@ extern QueueHandle_t h_btn_led_q;
 /* Task LED thread */
 void task_led(void *parameters)
 {
+	task_led_ev_t led_2ev;
 	task_led_ev_t led_ev = task_led_dta.event;
 	/*  Declare & Initialize Task Function variables */
 	g_task_led_cnt = G_TASK_LED_CNT_INI;
@@ -95,8 +96,11 @@ void task_led(void *parameters)
 	/* As per most tasks, this task is implemented in an infinite loop. */
 	for (;;)
 	{
-		if(pdPASS == xQueueReceive(h_btn_led_q, (void *)&led_ev,pdMS_TO_TICKS(0))){
+		if(pdPASS == xQueueReceive(h_btn_led_q, (void *)&led_ev,pdMS_TO_TICKS(1))){
+			//LOGGER_INFO("RECEIVED: %d",led_ev);
+			task_led_dta.flag = true;
 			task_led_dta.event = led_ev;
+			//LOGGER_INFO("%d",task_led_dta.event);
 		}
 
 		/* Update Task Counter */
