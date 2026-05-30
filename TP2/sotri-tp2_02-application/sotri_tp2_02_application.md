@@ -31,9 +31,12 @@ Significa que la tarea se queda esperando a poder recivir un elemento (si esta v
 
 # ¿Cómo bloquearse en varias Colas?
 
+En caso que se creen multiples colas y queramos esperar a recibir de alguna de ellas, podemos usar la siguiente función: 
 ```c
 QueueSetHandle_t xQueueCreateSet(const UBaseType_t uxEventQueueLength);
 ```
+Esta función crea un `Set` para que al usar `xQueueSelectFromSet()` se bloquee hasta recibir en alguna de todas las colas.
+
 # ¿Cómo sobrescribir datos en una Cola?
 ```c
 BaseType_t xQueueOverwrite(QueueHandle_t xQueue, const void * pvItemToQueue);
