@@ -49,7 +49,7 @@
 #define G_TASK_B_CNT_INI	0ul
 
 #define TASK_B_DEL_ZERO		(pdMS_TO_TICKS(0ul))
-#define TASK_B_DEL_MAX		(pdMS_TO_TICKS(2500ul))
+#define TASK_B_DEL_MAX		(pdMS_TO_TICKS(250ul))
 
 /********************** internal data declaration ****************************/
 
@@ -60,7 +60,9 @@ const char *p_task_b_wait_250mS			= "   ==> Task    B - Wait:   250mS";
 
 /********************** external data declaration ****************************/
 uint32_t g_task_b_cnt;
-
+extern uint32_t g_tasks_test_var;
+extern SemaphoreHandle_t buffer_use;
+extern SemaphoreHandle_t items;
 /********************** external functions definition ************************/
 /* Task thread */
 void task_b(void *parameters)
@@ -75,12 +77,14 @@ void task_b(void *parameters)
 	/* As per most tasks, this task is implemented in an infinite loop. */
 	for (;;)
     {
-		/* Update Task Counter */
-		g_task_b_cnt++;
-
-    	/* Print out: Wait 250mS */
-		LOGGER_INFO(p_task_b_wait_250mS);
-		vTaskDelay(TASK_B_DEL_MAX);
+		xSemaphoreTake(items, portMAX_DELAY);
+		xSemaphoreTake(buffer_use,portMAX_DELAY);
+		LOGGER_INFO("task_b: INSIDE CONSUMER (%d)", g_tasks_test_var);
+		g_task_b_cnt = g_tasks_test_var;
+		xSemaphoreGive(buffer_use);
+		LOGGER_INFO("task_b: Process variable");
+		g_task_b_cnt--;
+		LOGGER_INFO("task_b: end consumer");
 	}
 }
 

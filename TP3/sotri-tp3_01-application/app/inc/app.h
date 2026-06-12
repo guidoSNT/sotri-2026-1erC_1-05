@@ -46,7 +46,7 @@ extern "C" {
 #define TASK_QTY 2ul
 
 /********************** typedef **********************************************/
-
+typedef enum {EVENTO1, EVENTO2} event_test_t;
 /********************** external data declaration ****************************/
 extern uint32_t g_app_cnt;
 extern uint32_t g_app_task_cnt;

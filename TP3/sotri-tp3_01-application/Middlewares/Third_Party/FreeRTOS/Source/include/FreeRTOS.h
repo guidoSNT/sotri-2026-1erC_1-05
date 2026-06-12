@@ -75,7 +75,7 @@ extern "C" {
  * These macros are application specific and (as downloaded) are defined
  * within FreeRTOSConfig.h.
  */
-
+#define configUSE_COUNTING_SEMAPHORES 1
 #ifndef configMINIMAL_STACK_SIZE
 	#error Missing definition:  configMINIMAL_STACK_SIZE must be defined in FreeRTOSConfig.h.  configMINIMAL_STACK_SIZE defines the size (in words) of the stack allocated to the idle task.  Refer to the demo project provided for your port for a suitable value.
 #endif

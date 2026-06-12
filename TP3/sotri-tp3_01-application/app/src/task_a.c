@@ -60,7 +60,9 @@ const char *p_task_a_wait_250mS			= "   ==> Task    A - Wait:   250mS";
 
 /********************** external data declaration ****************************/
 uint32_t g_task_a_cnt;
-
+extern uint32_t g_tasks_test_var;
+extern SemaphoreHandle_t buffer_use;
+extern SemaphoreHandle_t items;
 /********************** external functions definition ************************/
 /* Task thread */
 void task_a(void *parameters)
@@ -73,14 +75,17 @@ void task_a(void *parameters)
 	LOGGER_INFO("  %s is running - Tick [mS] = %lu", pcTaskGetName(NULL), xTaskGetTickCount());
 
 	/* As per most tasks, this task is implemented in an infinite loop. */
+	vTaskPrioritySet(NULL, tskIDLE_PRIORITY + 1ul);
 	for (;;)
 	{
-		/* Update Task Counter */
+		vTaskDelay(pdMS_TO_TICKS(1000));
+		xSemaphoreTake(buffer_use,portMAX_DELAY);
+		LOGGER_INFO("task_a: INSIDE producer (%d)", g_tasks_test_var);
 		g_task_a_cnt++;
-
-    	/* Print out: Wait 250mS */
-		LOGGER_INFO(p_task_a_wait_250mS);
-		vTaskDelay(TASK_A_DEL_MAX);
+		g_tasks_test_var = g_task_a_cnt;
+		xSemaphoreGive(items);
+		xSemaphoreGive(buffer_use);
+		LOGGER_INFO("task_a: end producer");
 	}
 }
 

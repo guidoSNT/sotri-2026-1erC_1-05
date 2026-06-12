@@ -36,6 +36,9 @@
 /* Project includes */
 #include "main.h"
 #include "cmsis_os.h"
+#include "semphr.h"
+#include "queue.h"
+#include "FreeRTOS.h"
 
 /* Demo includes */
 #include "logger.h"
@@ -54,7 +57,8 @@
 #define G_TASK_IDLE_CNT_INI				0ul
 #define G_APP_STACK_OVERFLOW_CNT_INI	0ul
 #define G_TASKS_CNT_INI					0ul
-
+#define configUSE_MUTEXES               1
+#define ConfigUSE_COUNTING_SEMAPHORES   1
 /********************** internal data declaration ****************************/
 
 /********************** internal functions declaration ***********************/
@@ -76,12 +80,14 @@ uint32_t g_task_idle_cnt;
 uint32_t g_app_stack_overflow_cnt;
 
 uint32_t g_tasks_cnt;
-
+uint32_t g_tasks_test_var = 0;
 /* Declare a variable of type QueueHandle_t. This is used to reference queues*/
 
 /* Declare a variable of type SemaphoreHandle_t (binary or counting) or mutex.
  * This is used to reference the semaphore that is used to synchronize a thread
  * with other thread or to ensure mutual exclusive access to...*/
+SemaphoreHandle_t buffer_use;
+SemaphoreHandle_t items;
 
 /* Declare a variable of type TaskHandle_t. This is used to reference threads. */
 TaskHandle_t h_task_a;
@@ -118,12 +124,20 @@ void app_init(void)
 	/* Add threads, ... */
     BaseType_t ret;
 
+    // Create the queue for events
+    // TODO: COMMENTS!!!!!!
+    buffer_use = xSemaphoreCreateMutex();
+    items = xSemaphoreCreateCounting(5, 0);
+    vQueueAddToRegistry(buffer_use, "buffer_use");
+    vQueueAddToRegistry(items, "items");
+
+
     /* Task A thread at priority 1 */
     ret = xTaskCreate(task_a,							/* Pointer to the function thats implement the task. */
 					  "Task A",							/* Text name for the task. This is to facilitate debugging only. */
 					  (configMINIMAL_STACK_SIZE),		/* Stack depth in words. */
 					  NULL,								/* We are not using the task parameter. */
-					  (tskIDLE_PRIORITY + 1ul),			/* This task will run at priority 1. */
+					  (tskIDLE_PRIORITY + 2ul),			/* This task will run at priority 1. */
 					  &h_task_a);						/* We are using a variable as task handle. */
 
     /* Check the thread was created successfully. */
