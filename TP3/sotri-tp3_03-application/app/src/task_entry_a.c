@@ -51,69 +51,56 @@
 #define TASK_ENTRY_A_DEL_ZERO	(pdMS_TO_TICKS(0ul))
 #define TASK_ENTRY_A_DEL_MAX	(pdMS_TO_TICKS(2500ul))
 
-
 /********************** internal data declaration ****************************/
 extern SemaphoreHandle_t sem_entry_a;
-extern SemaphoreHandle_t mutex_brige;
+extern SemaphoreHandle_t mutex_cnt;
+extern SemaphoreHandle_t bridge;
 extern semaphore_color_t sem_a;
-extern uint32_t cnt_a;
+extern uint32_t cnt;
 semaphore_color_t sem_a = ROJO;
 /********************** internal functions declaration ***********************/
 
 /********************** internal data definition *****************************/
-const char *p_task_entry_a_wait_2500mS		= "   ==> Task Entry A - Wait:   2500mS";
-
 
 /********************** external data declaration *****************************/
 uint32_t g_task_entry_a_cnt;
 
 /********************** external functions definition ************************/
 /* Task thread */
-void task_entry_a(void *parameters)
-{
+void task_entry_a(void *parameters) {
 	/*  Declare & Initialize Task Function variables */
 	g_task_entry_a_cnt = G_TASK_ENTRY_A_CNT_INI;
-
-	xSemaphoreGive(mutex_brige);
+	xSemaphoreGive(bridge);
+	xSemaphoreGive(mutex_cnt);
 
 	uint8_t bridge_take = 0;
+	BaseType_t ret;
 
 	sem_a = ROJO;
 
 	/* Print out: Task Initialized */
 	LOGGER_INFO(" ");
-	LOGGER_INFO("  %s is running - Tick [mS] = %lu", pcTaskGetName(NULL), xTaskGetTickCount());
+	LOGGER_INFO("  %s is running - Tick [mS] = %lu", pcTaskGetName(NULL),
+			xTaskGetTickCount());
 
 	/* As per most tasks, this task is implemented in an infinite loop. */
-	for (;;)
-	{
-		xSemaphoreTake(sem_entry_a,portMAX_DELAY);
+	for (;;) {
+		// Entro un auto
+		ret = xSemaphoreTake(sem_entry_a, portMAX_DELAY);
+		sem_a = ROJO;
 
-		if(cnt_a++ == 0)
-		{
+		// Tomo el puento si no lo tomamos antes
+		if (bridge_take == 0)
+			ret = xSemaphoreTake(bridge, portMAX_DELAY);
+		bridge_take = 1; // Se toma el puente
 
-			if(bridge_take = xSemaphoreTake(mutex_brige,0))
-			{
-				sem_a = VERDE;
-			}
-			else
-			{
-				sem_a = ROJO;
-			}
+		// Verifico si hay espacio en  el puente
+		if (cnt < G_TASKS_CNT_MAX) {
+			xSemaphoreTake(mutex_cnt, portMAX_DELAY);
+			cnt++;
+			sem_a = VERDE;
+			xSemaphoreGive(mutex_cnt);
 		}
-		else if (bridge_take == pdPASS)
-		{
-
-			if (cnt_a> G_TASKS_CNT_MAX)
-			{
-				sem_a = ROJO;
-			}
-
-		}
-
-    	/* Print out: Wait 2500mS */
-		LOGGER_INFO(p_task_entry_a_wait_2500mS);
-		//vTaskDelay(TASK_ENTRY_A_DEL_MAX);
 	}
 }
 

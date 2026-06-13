@@ -53,50 +53,45 @@
 
 /********************** internal data declaration ****************************/
 extern SemaphoreHandle_t sem_exit_a;
-extern SemaphoreHandle_t mutex_brige;
+extern SemaphoreHandle_t bridge;
+extern SemaphoreHandle_t mutex_cnt;
 extern semaphore_color_t sem_a;
-extern uint32_t cnt_a;
+extern uint32_t cnt;
 /********************** internal functions declaration ***********************/
 
 /********************** internal data definition *****************************/
-const char *p_task_exit_a_wait_2500mS		= "   ==> Task Exit A  - Wait:   2500mS";
+const char *p_task_exit_a_wait_2500mS = "   ==> Task Exit A  - Wait:   2500mS";
 
 /********************** external data declaration *****************************/
 uint32_t g_task_exit_a_cnt;
 
 /********************** external functions definition ************************/
 /* Task thread */
-void task_exit_a(void *parameters)
-{
+void task_exit_a(void *parameters) {
 	/*  Declare & Initialize Task Function variables */
 	g_task_exit_a_cnt = G_TASK_EXIT_A_CNT_INI;
 
-	xSemaphoreGive(mutex_brige);
+	xSemaphoreGive(bridge);
+	BaseType_t ret;
 	/* Print out: Task Initialized */
 	LOGGER_INFO(" ");
 	LOGGER_INFO("  %s is running - Tick [mS] = %lu", pcTaskGetName(NULL), xTaskGetTickCount());
 
 	/* As per most tasks, this task is implemented in an infinite loop. */
-	for (;;)
-	{
-		xSemaphoreTake(sem_exit_a,portMAX_DELAY);
+	for (;;) {
+		// Sale un auto
+		xSemaphoreTake(sem_exit_a, portMAX_DELAY);
 
-		cnt_a--;
+		// Reduzco la cantidad de autos en el puente
+		xSemaphoreTake(mutex_cnt, portMAX_DELAY);
+		cnt--;
+		xSemaphoreGive(mutex_cnt);
 
-
-		if(cnt_a == 0)
-		{
-
-			xSemaphoreGive(mutex_brige);
-
+		// Si no hay mas autos se cede el puente
+		if (cnt == 0) {
+			xSemaphoreGive(bridge);
 			sem_a = ROJO;
-
-		}
-
-
-    	/* Print out: Wait 2500mS */
-		LOGGER_INFO(p_task_exit_a_wait_2500mS);
-		//vTaskDelay(TASK_EXIT_A_DEL_MAX);
+		};
 	}
 }
 

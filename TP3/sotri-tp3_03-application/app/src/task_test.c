@@ -53,7 +53,9 @@
 
 /********************** internal data declaration ****************************/
 /* Events to excite tasks */
-typedef enum e_task_test {Error, Entry_A, Entry_B, Exit_A, Exit_B} e_task_test_t;
+typedef enum e_task_test {
+	Error, Entry_A, Entry_B, Exit_A, Exit_B
+} e_task_test_t;
 
 extern SemaphoreHandle_t sem_entry_a;
 extern SemaphoreHandle_t sem_exit_a;
@@ -62,18 +64,18 @@ extern SemaphoreHandle_t sem_exit_b;
 /********************** internal functions declaration ***********************/
 
 /********************** internal data definition *****************************/
-const char *p_task_test						= "Periodically excites other tasks";
-const char *p_task_test_priority			= "  <=> Task Test - Priority:";
-const char *p_task_test_e_task_test_array	= "  <=> Task Test - e_task_test_array:";
+const char *p_task_test = "Periodically excites other tasks";
+const char *p_task_test_priority = "  <=> Task Test - Priority:";
+const char *p_task_test_e_task_test_array = "  <=> Task Test - e_task_test_array:";
 
-const char *p_task_test_signal_error  		= "  <=> Task Test - Signal: Error    <=>";
+const char *p_task_test_signal_error = "  <=> Task Test - Signal: Error    <=>";
 
-const char *p_task_test_wait_5000mS			= "  <=> Task Test - Wait:   5000mS";
+const char *p_task_test_wait_5000mS = "  <=> Task Test - Wait:   5000mS";
 
-const char *p_task_test_signal_entry_a		= "  <=> Task Test - Signal: Entry_A  <=>";
-const char *p_task_test_signal_exit_a		= "  <=> Task Test - Signal: Exit_A   <=>";
+const char *p_task_test_signal_entry_a = "  <=> Task Test - Signal: Entry_A  <=>";
+const char *p_task_test_signal_exit_a = "  <=> Task Test - Signal: Exit_A   <=>";
 
-#define E_TASK_TEST_X (3)
+#define E_TASK_TEST_X (4)
 
 #if (E_TASK_TEST_X == 0)
 /* Array of events to excite tasks */
@@ -82,7 +84,7 @@ const e_task_test_t e_task_test_array[] = {Error, Exit_B+1, Exit_B+2};
 
 #if (E_TASK_TEST_X == 1)
 /* Array of events to excite tasks */
-const e_task_test_t e_task_test_array[] = {Entry_A, Exit_A};
+const e_task_test_t e_task_test_array[] = { Entry_A, Exit_A };
 #endif
 
 #if (E_TASK_TEST_X == 2)
@@ -110,15 +112,14 @@ uint32_t g_task_test_cnt;
 
 /********************** external functions definition ************************/
 /* Task Test thread */
-void task_test(void *parameters)
-{
+void task_test(void *parameters) {
 	g_task_test_cnt = G_TASK_TEST_CNT_INI;
 
 	/*  Declare & Initialize Task Function variables for argument, led, button and task */
 	TickType_t last_wake_time;
 
 	/* The xLastWakeTime variable needs to be initialized with the current tick
-	   count. ws*/
+	 count. ws*/
 	last_wake_time = xTaskGetTickCount();
 
 	/* Print out: Task Initialized */
@@ -139,49 +140,48 @@ void task_test(void *parameters)
 	vTaskPrioritySet(NULL, task_test_priority);
 
 	/* Print out: Task priority */
-	LOGGER_INFO("%s %s %d", p_task_test_priority, pcTaskGetName(NULL), (int)task_test_priority);
+	LOGGER_INFO("%s %s %d", p_task_test_priority, pcTaskGetName(NULL), (int )task_test_priority);
 
 	/* As per most tasks, this task is implemented in an infinite loop. */
-	for (;;)
-	{
+	for (;;) {
 		uint32_t index = E_TASK_TEST_X;
 
 		/* Scanning the array of events to excite tasks */
-		for (index = 0; index < (sizeof(e_task_test_array)/sizeof(e_task_test_t)); index++)
-		{
+		for (index = 0; index < (sizeof(e_task_test_array) / sizeof(e_task_test_t)); index++) {
 			/* Update Task Task Counter */
 			g_task_test_cnt++;
 
 			/* Print out: Event Task Test Array Index */
 			LOGGER_INFO(" ");
-			LOGGER_INFO("%s %s %d", p_task_test_e_task_test_array, GET_NAME(index), (int)index);
+			LOGGER_INFO("%s %s %d", p_task_test_e_task_test_array, GET_NAME(index), (int )index);
 
 			switch (e_task_test_array[index]) {
 
-	    		case Entry_A:
-	    			xSemaphoreGive(sem_entry_a);
-		    		break;
+			case Entry_A:
+				xSemaphoreGive(sem_entry_a);
+				break;
 
-	    		case Exit_A:
-	    			xSemaphoreGive(sem_exit_a);
+			case Exit_A:
+				xSemaphoreGive(sem_exit_a);
 
-		    		break;
+				break;
 
-	    		case Entry_B:
-	    			xSemaphoreGive(sem_entry_b);
-		    		break;
+			case Entry_B:
+				xSemaphoreGive(sem_entry_b);
+				break;
 
-	    		case Exit_B:
-	    			xSemaphoreGive(sem_exit_b);
-		    		break;
+			case Exit_B:
+				xSemaphoreGive(sem_exit_b);
+				break;
 
-		    	case Error:
-		    	default:
+			case Error:
+			default:
 
-		    		/* Print out: Signal Error */
-		    		LOGGER_INFO(p_task_test_signal_error);
-		    		break;
-		    }
+				/* Print out: Signal Error */
+				LOGGER_INFO(p_task_test_signal_error)
+				;
+				break;
+			}
 
 			/* We want this task to execute exactly every 5000 milliseconds. */
 			LOGGER_INFO(p_task_test_wait_5000mS);
