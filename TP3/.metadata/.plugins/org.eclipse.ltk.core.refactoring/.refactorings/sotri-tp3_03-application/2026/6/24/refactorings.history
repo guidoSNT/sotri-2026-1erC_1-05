@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;sotri-tp3_03-application/sotri-tp3_01-application.md&apos; to &apos;sotri-tp3_03-application.md&apos;" description="Rename resource &apos;sotri-tp3_01-application.md&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="sotri-tp3_01-application.md" name="sotri-tp3_03-application.md" stamp="1781302152452" updateReferences="true"/>
+</session>
