@@ -1,0 +1,91 @@
+/*
+ * Copyright (c) 2026 Juan Manuel Cruz <jcruz@fi.uba.ar> <jcruz@frba.utn.edu.ar>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its
+ *    contributors may be used to endorse or promote products derived from
+ *    this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @author : Juan Manuel Cruz <jcruz@fi.uba.ar> <jcruz@frba.utn.edu.ar>
+ */
+
+#ifndef APP_H_
+#define APP_H_
+
+/********************** CPP guard ********************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/********************** inclusions *******************************************/
+
+/********************** macros ***********************************************/
+#define TASK_QTY 2ul
+
+#define	G_TASKS_CNT_MAX	3ul
+
+/********************** typedef **********************************************/
+
+/********************** external data declaration ****************************/
+extern uint32_t g_app_cnt;
+extern uint32_t g_app_task_cnt;
+extern volatile uint32_t g_app_tick_cnt;
+extern uint32_t g_task_idle_cnt;
+extern uint32_t g_app_stack_overflow_cnt;
+
+extern uint32_t	g_tasks_cnt;
+
+/* Declare a variable of type QueueHandle_t. This is used to reference queues*/
+
+extern SemaphoreHandle_t h_open_request_a_sem;
+extern SemaphoreHandle_t h_door_closed_a_sem;
+extern SemaphoreHandle_t h_open_request_b_sem;
+extern SemaphoreHandle_t h_door_closed_b_sem;
+extern SemaphoreHandle_t h_open_request_c_sem;
+extern SemaphoreHandle_t h_door_closed_c_sem;
+extern SemaphoreHandle_t h_open_request_d_sem;
+extern SemaphoreHandle_t h_door_closed_d_sem;
+
+extern SemaphoreHandle_t h_mutex_airlock;
+
+/* Declare a variable of type TaskHandle_t. This is used to reference threads. */
+extern TaskHandle_t h_task_gate_a;
+extern TaskHandle_t h_task_gate_b;
+extern TaskHandle_t h_task_gate_c;
+extern TaskHandle_t h_task_gate_d;
+extern TaskHandle_t h_task_test;
+
+/********************** external functions declaration ***********************/
+extern void app_init(void);
+
+/********************** End of CPP guard *************************************/
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* APP_H_ */
+
+/********************** end of file ******************************************/
