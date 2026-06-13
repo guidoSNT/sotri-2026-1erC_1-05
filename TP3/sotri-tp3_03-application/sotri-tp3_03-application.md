@@ -73,3 +73,104 @@ Si se compila y ejecuta este código tal como está ahora, se observará el sigu
 4.  La tarea `task_test` se ejecuta, eleva su propia prioridad, entra a su bucle, lee el primer evento (`Entry_A`), no hace nada (porque el `switch` está vacío) y se duerme por 5000ms mediante `vTaskDelayUntil`.
 5.  A los 2500ms, las tareas de entrada y salida se despiertan, incrementan sus contadores, vuelven a imprimir el log de espera y se vuelven a dormir por otros 2500ms.
 6.  A los 5000ms, `task_test` se despierta, avanza al siguiente evento (`Exit_A`), y el ciclo se repite indefinidamente.
+
+## 4. Paso 06
+
+Se implemento el problema de Vehicular Crossing donde existen las siguientes tareas:
+- `task_entry_a`. 
+- `task_entry_b`.
+- `task_exit_a`.
+- `task_exit_b`.
+
+Se utilizaron los siguientes semaforos:
+
+ - `mutex_cnt`: Mutex que protege la variable que cuenta la cantidad de autos en el puente.
+ - `bridge`: Semaforo binario que indica quien tiene el puente (a o b).
+ - `sem_entry_a`: Semaforo binario para indicar la entrada por a.
+ - `sem_exit_a`: Semaforo binario para indicar la salida por a.
+ - `sem_entry_b`: Semaforo binario para indicar la entrada por b.
+ - `sem_exit_b`: Semaforo binario para indicar la salida por b.
+
+ El siguiente codigo es de `task_entry_a`. Este tambien aplica para `task_entry_b`:
+
+```c
+for (;;) {
+    // Entro un auto
+    ret = xSemaphoreTake(sem_entry_a, portMAX_DELAY);
+    sem_a = ROJO;
+
+    // Tomo el puento si no lo tomamos antes
+    if (bridge_take == 0)
+        ret = xSemaphoreTake(bridge, portMAX_DELAY);
+    bridge_take = 1; // Se toma el puente
+
+    // Verifico si hay espacio en  el puente
+    if (cnt < G_TASKS_CNT_MAX) {
+        xSemaphoreTake(mutex_cnt, portMAX_DELAY);
+        cnt++;
+        sem_a = VERDE;
+        xSemaphoreGive(mutex_cnt);
+    }
+}
+```
+
+Codigo de la `task_exit_a` (tambien aplica para `task_exit_b`):
+```c
+for (;;) {
+    // Sale un auto
+    xSemaphoreTake(sem_exit_a, portMAX_DELAY);
+
+    // Reduzco la cantidad de autos en el puente
+    xSemaphoreTake(mutex_cnt, portMAX_DELAY);
+    cnt--;
+    xSemaphoreGive(mutex_cnt);
+
+    // Si no hay mas autos se cede el puente
+    if (cnt == 0) {
+        xSemaphoreGive(bridge);
+        sem_a = ROJO;
+    };
+}
+```
+
+
+Por otro lado, la tarea lectora bloquea el recurso de la escritora. Ademas, bloquea a otras lectoras mientras modifica la variable `readers`, que lleva la cuenta de cuantos lectores hay. El recurso se liberara cuando ya no queden lectores accediendo a este.
+
+El siguiente codigo es el de la tarea lectora:
+```c
+for (;;) {
+    xSemaphoreTake(mut, portMAX_DELAY);
+    readers++;
+    if(readers == 1){
+        LOGGER_INFO("task_b: first reader, blocking writers");
+        xSemaphoreTake(room_empty_mutex, portMAX_DELAY);
+    }
+    xSemaphoreGive(mut);
+    LOGGER_INFO("task_b: inside reader");
+    // reader code example
+    g_task_b_cnt = g_tasks_cnt;
+
+    xSemaphoreTake(mut, portMAX_DELAY);
+    readers--;
+    if(readers == 0){
+        LOGGER_INFO("task_b: Last reader, writers free");
+        xSemaphoreGive(room_empty_mutex);
+    }
+    xSemaphoreGive(mut);
+    vTaskDelay(pdMS_TO_TICKS(2500));
+}
+```
+
+Se envia un estimulo de `entry_a` y se toma el semaforo correspondiente:
+![img_0](imgs/act_03_0.png)
+
+Como el puente no estaba en uso, se toma el semaforo correspondiente:
+![img_1](imgs/act_03_1.png)
+
+Se verifica la cantidad de autos en el puente y si es menor al maximo establecido se toma el mutex del recurso (`cnt`). Se incremeta ya que se esta sumando un auto al puente. Ademas, se pone el semaforo en verde:
+![img_2](imgs/act_03_2.png)
+
+Luego de 4 `entry_a`, comenzamos con los exits. Por cada `exit` se decrementa `cnt` hasta llegar a 0, donde se libera el semaforo del puente:
+![img_4](imgs/act_03_4.png)
+![img_4](imgs/act_03_5.png)
+![img_4](imgs/act_03_6.png)
